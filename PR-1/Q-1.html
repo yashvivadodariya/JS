@@ -1,0 +1,102 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Bill Calculation</title>
+    <style>
+        body {
+            flex-direction: column;
+            background-color: #d0d6e3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(160, 115, 244, 0.1);
+            margin-bottom: 15px;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input[type="number"] {
+            padding: 6px;
+            width: 150px;
+        }
+
+        input[type="button"] {
+            padding: 8px 12px;
+            background: #685eb5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover {
+            background: #574da0;
+        }
+    </style>
+</head>
+
+<h1>Tip Calculator</h1>
+
+<table>
+    <tr>
+        <td>Bill Amount :</td>
+        <td><input type="number" id="amount"></td>
+    </tr>
+    <tr>
+        <td>Tip Percentage :</td>
+        <td><input type="number" id="tip"></td>
+    </tr>
+    <tr>
+        <td>Number of People :</td>
+        <td><input type="number" id="number"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="button" value="Calculate" onclick="return TipCalculator()"></td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>Tip Per Person :</td>
+        <td><input type="number" id="person"></td>
+    </tr>
+    <tr>
+        <td>Total Per Person :</td>
+        <td><input type="number" id="total"></td>
+    </tr>
+    <tr>
+        <td>Total Bill :</td>
+        <td><input type="number" id="bill"></td>
+    </tr>
+</table>
+
+<script>
+    function TipCalculator() {
+        var Bill = Number(document.getElementById('amount').value);
+        var Per_Person_Tip = Number(document.getElementById('tip').value);
+        var Total_Per_person = Number(document.getElementById('number').value);
+
+        var Tip = (Bill * Per_Person_Tip) / 100;
+        var Total_Bill = Bill + Tip;
+        document.getElementById('bill').value = Total_Bill;
+        var Per_Person = Total_Bill / Total_Per_person;
+        document.getElementById('total').value = Per_Person;
+        var Tip_Per_person = Tip / Total_Per_person;
+        document.getElementById('person').value = Tip_Per_person;
+    }
+</script>

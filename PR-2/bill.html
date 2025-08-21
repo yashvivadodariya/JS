@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bill Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ecdfec;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        table {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        caption {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 12px;
+            color: rgb(0, 0, 0);
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td:first-child {
+            width: 40%;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 6px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="button"] {
+            background-color: #804e79;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #3d243a;
+        }
+
+        input[readonly],
+        textarea[readonly] {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <caption>Enter Customer Details</caption>
+        <tr>
+            <td>Enter your Name:</td>
+            <td><input type="text" id="Name"></td>
+        </tr>
+        <tr>
+            <td>Enter your Address:</td>
+            <td><textarea id="Address"></textarea></td>
+        </tr>
+        <tr>
+            <td>Enter your Unit:</td>
+            <td><input type="number" id="Unit"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="button" value="Generate Bill" onclick="GenerateBill()"></td>
+        </tr>
+    </table>
+
+    <table>
+        <caption>Bill Details</caption>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" id="resultName" readonly></td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><textarea id="resultAddress" readonly></textarea></td>
+        </tr>
+        <tr>
+            <td>Unit:</td>
+            <td><input type="number" id="resultUnit" readonly></td>
+        </tr>
+        <tr>
+            <td>Fix Unit:</td>
+            <td><input type="text" id="fixunit" value="1 Unit has 6 Rupees" readonly></td>
+        </tr>
+        <tr>
+            <td>Amount:</td>
+            <td><input type="text" id="resultAmount" readonly></td>
+        </tr>
+        <tr>
+            <td>GST (9%):</td>
+            <td><input type="text" id="GST" readonly></td>
+        </tr>
+        <tr>
+            <td>Total Pay:</td>
+            <td><input type="text" id="pay" readonly></td>
+        </tr>
+    </table>
+
+    <script>
+        function GenerateBill() {
+            var name = document.getElementById('Name').value;
+            var address = document.getElementById('Address').value;
+            var unit = Number(document.getElementById('Unit').value);
+
+            var amount = unit * 6;
+            var gst = (amount * 9) / 100;
+            var total = amount + gst;
+
+            document.getElementById('resultName').value = name;
+            document.getElementById('resultAddress').value = address;
+            document.getElementById('resultUnit').value = unit;
+            document.getElementById('resultAmount').value = amount.toFixed(2);
+            document.getElementById('GST').value = gst.toFixed(2);
+            document.getElementById('pay').value = total.toFixed(2);
+        }
+    </script>
+</body>
+
+</html>
