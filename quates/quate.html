@@ -1,0 +1,92 @@
+<head>
+    <title>Quotes Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .quote-card {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 400px;
+        }
+        #img {
+            border-radius: 50%;
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        #quote {
+            font-size: 18px;
+            font-style: italic;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #name {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #6e8efb;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #5b74e0;
+        }
+    </style>
+</head>
+
+<div class="quote-card">
+    <img src="" id="img" alt="Author Image">
+    <h2 id="quote">Click Next to see a quote</h2>
+    <h3 id="name"></h3>
+    <button onclick="quotrs()">Next</button>
+</div>
+
+<script>
+var quotes = [
+    {
+        img : "https://images.gr-assets.com/authors/1673611182p8/3565.jpg",
+        author : "Oscar Wilde",
+        quote :"Be yourself; everyone else is already taken.",
+    },
+    {
+        img : "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/authors/1696236573i/22302._UX87_.jpg",
+        author : "Frank Zappa",
+        quote :"So many books, so little time.",
+    },
+    {
+        img : "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/authors/1429114964i/9810._UX87_.jpg",
+        author : "Albert Einstein",
+        quote :"Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
+    }
+];
+
+var i = 0;
+function quotrs(){
+    document.getElementById('img').src = quotes[i].img;
+    document.getElementById('quote').innerHTML = quotes[i].quote;
+    document.getElementById('name').innerHTML = quotes[i].author;
+    i++;
+    if(i >= quotes.length){ 
+        i = 0;
+    }
+}
+</script>
+
