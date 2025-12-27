@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Easy Covid App</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box {
+        background: white;
+        width: 320px;
+        padding: 28px 25px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 14px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        font-size: 15px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #ff758c;
+        box-shadow: 0 0 0 2px rgba(255, 117, 140, 0.25);
+    }
+
+    button {
+        padding: 12px 32px;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    #out {
+        margin-top: 18px;
+        background: #fff0f4;
+        padding: 12px;
+        border-radius: 14px;
+        text-align: left;
+    }
+
+    #out p {
+        margin: 6px 0;
+        font-size: 14px;
+    }
+</style>
+
+
+</head>
+
+<body>
+
+    <div class="box">
+        <input type="text" id="c" placeholder="Enter country">
+        <button onclick="get()">Check</button>
+        <div id="out"></div>
+    </div>
+
+    <script>
+        function get() {
+            var c = document.getElementById("c").value;
+            var o = document.getElementById("out");
+
+            if (c == "") {
+                o.innerHTML = "Enter country name";
+                return;
+            }
+
+            fetch(`https://disease.sh/v3/covid-19/countries/${c}`)
+                .then(res => res.json())
+                .then(d => {
+                    o.innerHTML = `
+            <p><b>${d.country}</b></p>
+            <p>Total Cases: ${d.cases}</p>
+            <p>Today Cases: ${d.todayCases}</p>
+            <p>Deaths: ${d.deaths}</p>
+            <p>Recovered: ${d.recovered}</p>
+            <p>Active: ${d.active}</p>
+        `;
+                })
+                .catch(() => {
+                    o.innerHTML = "Country not found";
+                });
+        }
+    </script>
+
+</body>
+
+</html>
