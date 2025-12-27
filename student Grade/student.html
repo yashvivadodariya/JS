@@ -1,0 +1,177 @@
+<head>
+    <title>Student Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        table {
+            border-collapse: collapse;
+            width: 300px;
+            background: white;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+        }
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 95%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="button"] {
+            background: #4CAF50;
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+
+<h2>Result</h2>
+<div class="row">
+    <div class="col-6">
+        <table>
+            <tr>
+                <td>Name :</td>
+                <td><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <td>Class :</td>
+                <td><input type="number" id="class"></td>
+            </tr>
+            <tr>
+                <td>Gujarati :</td>
+                <td><input type="number" id="Gujarati"></td>
+            </tr>
+            <tr>
+                <td>Hindi :</td>
+                <td><input type="number" id="hindi"></td>
+            </tr>
+            <tr>
+                <td>English :</td>
+                <td><input type="number" id="english"></td>
+            </tr>
+            <tr>
+                <td>Science :</td>
+                <td><input type="number" id="science"></td>
+            </tr>
+            <tr>
+                <td>Maths :</td>
+                <td><input type="number" id="maths"></td>
+            </tr>
+            <tr>
+                <td>S.S:</td>
+                <td><input type="number" id="ss"></td>
+            </tr>
+            <tr>
+                <td>Sanskarit :</td>
+                <td><input type="number" id="sanskarit"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" value="Result" onclick="getresult()"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-6">
+        <table>
+            <tr>
+                <td>Name :</td>
+                <td><input type="text" id="studenName" readonly></td>
+            </tr>
+            <tr>
+                <td>Class :</td>
+                <td><input type="number" id="studenclass" readonly></td>
+            </tr>
+            <tr>
+                <td>Max-Mark :</td>
+                <td><input type="text" id="maxMark" readonly></td>
+            </tr>
+            <tr>
+                <td>Min-Mark :</td>
+                <td><input type="text" id="minMark" readonly></td>
+            </tr>
+            <tr>
+                <td>Percentage :</td>
+                <td><input type="number" id="per" readonly></td>
+            </tr>
+            <tr>
+                <td>Grade :</td>
+                <td><input type="text" id="grade" readonly></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    function getresult() {
+        var Name = document.getElementById('name').value;
+        var Class = document.getElementById('class').value;
+        var Gujarati = Number(document.getElementById('Gujarati').value);
+        var Hindi = Number(document.getElementById('hindi').value);
+        var English = Number(document.getElementById('english').value);
+        var Maths = Number(document.getElementById('maths').value);
+        var Science = Number(document.getElementById('science').value);
+        var SS = Number(document.getElementById('ss').value);
+        var Sanskarit = Number(document.getElementById('sanskarit').value);
+
+        document.getElementById('studenName').value = Name;
+        document.getElementById('studenclass').value = Class;
+
+        var MaxMark = Math.max(Gujarati, Hindi, English, Maths, Science, SS, Sanskarit);
+        document.getElementById("maxMark").value = MaxMark;
+
+        var MinMark = Math.min(Gujarati, Hindi, English, Maths, Science, SS, Sanskarit);
+        document.getElementById("minMark").value = MinMark;
+
+        var per = ((Gujarati + Hindi + English + Maths + Science + SS + Sanskarit) * 100) / 700;
+        document.getElementById("per").value = per;
+
+        var grade = "";
+        if(per >= 90){
+            grade = "A+";
+        } 
+        else if(per >= 80){
+            grade = "A";
+        } 
+        else if(per >= 70){
+            grade = "B+";
+        }
+        else if(per >= 60){
+            grade = "B";
+        } 
+        else if(per >= 50){
+            grade = "C";
+        } 
+        else if(per >= 35){
+            grade = "D";
+        } 
+        else {
+            grade = "F";
+        }
+        document.getElementById("grade").value = grade;
+    }
+</script>
