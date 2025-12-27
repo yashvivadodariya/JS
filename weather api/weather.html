@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Easy Weather App</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #4facfe;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 260px;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        #out p {
+            margin: 6px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <input type="text" id="city" placeholder="Enter city">
+        <button onclick="get()">Check</button>
+        <div id="out"></div>
+    </div>
+
+    <script>
+        function get() {
+            var c = document.getElementById("city").value;
+            var o = document.getElementById("out");
+
+            if (c == "") {
+                o.innerHTML = "Enter city name";
+                return;
+            }
+
+            fetch(`https://wttr.in/${c}?format=j1`)
+                .then(res => res.json())
+                .then(data => {
+                    o.innerHTML = `
+            <p><b>${c}</b></p>
+            <p>Temp: ${data.current_condition[0].temp_C} °C</p>
+            <p>Humidity: ${data.current_condition[0].humidity}%</p>
+            <p>Weather: ${data.current_condition[0].weatherDesc[0].value}</p>
+            <p>Wind: ${data.current_condition[0].windspeedKmph} km/h</p>
+        `;
+                })
+                .catch(() => {
+                    o.innerHTML = "City not found";
+                });
+        }
+    </script>
+
+</body>
+
+</html>
