@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guess Number Game</title>
+    <style>
+        body{
+            margin:0;
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+            font-family:Arial, sans-serif;
+        }
+
+        .game-box{
+            width:340px;
+            background:white;
+            padding:25px;
+            border-radius:15px;
+            box-shadow:0 12px 30px rgba(0,0,0,0.25);
+            text-align:center;
+        }
+
+        .game-box h2{
+            margin-bottom:15px;
+            color:#333;
+        }
+
+        .game-box input{
+            width:100%;
+            padding:10px;
+            border-radius:8px;
+            border:1px solid #ccc;
+            outline:none;
+            margin-bottom:15px;
+            font-size:14px;
+        }
+
+        .game-box button{
+            width:100%;
+            padding:12px;
+            background:#ff6b6b;
+            border:none;
+            border-radius:8px;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .game-box button:hover{
+            background:#e63946;
+        }
+
+        #m{
+            margin-top:15px;
+            font-size:16px;
+            font-weight:bold;
+            color:#333;
+        }
+
+        #total{
+            margin-top:10px;
+            color:#555;
+            font-size:14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="game-box">
+    <h2>Guess the Number<br>(1 - 100)</h2>
+
+    <input id="guess" type="number" min="1" max="100" placeholder="Enter number">
+    <button onclick="checkGuess()">Guess</button>
+
+    <p id="m"></p>
+    <p id="total">Attempts: 0 / 5</p>
+</div>
+
+<script>
+var number = Math.floor(Math.random() * 100) + 1;
+var i = 0;
+
+function checkGuess(){
+    var guess = Number(document.getElementById('guess').value);
+    i++;
+
+    document.getElementById('total').innerHTML = "Attempts: " + i + " / 5";
+
+    if(guess === number){
+        document.getElementById('m').innerHTML = "🎉 You guessed it!";
+    }
+    else if(i >= 5){
+        document.getElementById('m').innerHTML = "❌ Game Over! Number was " + number;
+    }
+    else if(guess < number){
+        document.getElementById('m').innerHTML = "⬇️ Too low!";
+    }
+    else{
+        document.getElementById('m').innerHTML = "⬆️ Too high!";
+    }
+}
+</script>
+
+</body>
+</html>
