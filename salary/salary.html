@@ -1,0 +1,143 @@
+<head>
+    <title>Salary Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 380px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .result td {
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<div class='box'>
+    <h2>Salary Calculator</h2>
+
+    <table>
+        <tr>
+            <td>Age :</td>
+            <td><input type='number' id='age'></td>
+        </tr>
+        <tr>
+            <td>Years of Working :</td>
+            <td><input type='number' id='years'></td>
+        </tr>
+        <tr>
+            <td>Job :</td>
+            <td><input type='text' id='job'></td>
+        </tr>
+        <tr>
+            <td>Hours per Day :</td>
+            <td><input type='number' id='hours'></td>
+        </tr>
+        <tr>
+            <td>Workdays per Week :</td>
+            <td><input type='number' id='days'></td>
+        </tr>
+        <tr>
+            <td>Monthly Salary :</td>
+            <td><input type='number' id='salary'></td>
+        </tr>
+    </table>
+
+    <button onclick='return calculate()'>Calculate</button>
+
+    <h3>Total Salary</h3>
+    <table class='result'>
+        <tr>
+            <td>Hourly :</td>
+            <td id='hourly'></td>
+        </tr>
+        <tr>
+            <td>Daily :</td>
+            <td id='daily'></td>
+        </tr>
+        <tr>
+            <td>Monthly :</td>
+            <td id='monthly'></td>
+        </tr>
+        <tr>
+            <td>Yearly :</td>
+            <td id='yearly'></td>
+        </tr>
+        <tr>
+            <td>Total :</td>
+            <td id='total'></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    function calculate() {
+        var years = Number(document.getElementById('years').value);
+        var hours = Number(document.getElementById('hours').value);
+        var days = Number(document.getElementById('days').value);
+        var salary = Number(document.getElementById('salary').value);
+
+        var monthly = salary;
+        var yearly = monthly * 12;
+        var daily = monthly / (days * 4);
+        var hourly = daily / hours;
+        var total = yearly * years;
+
+        document.getElementById('hourly').innerHTML = hourly;
+        document.getElementById('daily').innerHTML = daily;
+        document.getElementById('monthly').innerHTML = monthly;
+        document.getElementById('yearly').innerHTML = yearly;
+        document.getElementById('total').innerHTML = total;
+    }
+</script>
