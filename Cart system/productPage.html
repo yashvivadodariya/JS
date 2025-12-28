@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Product Page</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(160deg, #3d1a1b, #6c2e33);
+            color: #e6e8ff;
+        }
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(14px);
+            padding: 18px 35px;
+            border-radius: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+        }
+
+        .topbar a {
+            color: #e6e8ff;
+            text-decoration: none;
+            margin-right: 25px;
+        }
+
+        .login-link {
+            background: linear-gradient(135deg, #985c5f, #a3595a);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+        }
+
+        #cartInfo {
+            text-align: right;
+            margin-bottom: 15px;
+            color: #e8cece;
+        }
+
+        .item-box {
+            max-width: 460px;
+            margin: auto;
+            background: linear-gradient(180deg, #ffffff, #ba8b8f);
+            padding: 30px;
+            border-radius: 26px;
+            text-align: center;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #985c5f, #a3595a);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div>
+            <a href="store.html">Home</a>
+            <a href="cart.html">Cart</a>
+        </div>
+        <a href="signin.html" class="login-link">Login</a>
+    </header>
+
+    <p id="cartInfo" style="cursor:pointer"></p>
+
+    <div class="item-box">
+        <img id="itemImage">
+        <div id="itemAction"></div>
+        <button class="action-btn" id="backBtn">Back</button>
+    </div>
+
+    <script>
+        const selectedItem = JSON.parse(localStorage.getItem('currentItem'));
+        const cartItems = JSON.parse(localStorage.getItem('cartData')) || [];
+
+        const itemImage = document.getElementById('itemImage');
+        const itemAction = document.getElementById('itemAction');
+        const cartInfo = document.getElementById('cartInfo');
+        const backBtn = document.getElementById('backBtn');
+
+        fetch(`https://fakestoreapi.com/products/${selectedItem}`)
+            .then(res => res.json())
+            .then(d => {
+                itemImage.src = d.image;
+                itemImage.style.height = "260px";
+
+                itemAction.innerHTML =
+                    `<button class="action-btn" onclick="addItem(${d.id}, '${d.image}', '${encodeURIComponent(d.title)}', ${d.price})">Add to Cart</button>`;
+            });
+
+        function addItem(id, img, name, price) {
+            name = decodeURIComponent(name);
+            const found = cartItems.find(x => x.id == id);
+            if (found) found.qty++;
+            else cartItems.push({ id, img, name, price, qty: 1 });
+            localStorage.setItem('cartData', JSON.stringify(cartItems));
+            updateCartInfo();
+        }
+
+        function updateCartInfo() {
+            let count = 0;
+            cartItems.forEach(x => {
+                if (x.id == selectedItem) count = x.qty;
+            });
+            cartInfo.innerText = `In cart: ${count}`;
+        }
+        updateCartInfo();
+
+        cartInfo.onclick = () => window.location = 'cart.html';
+        backBtn.onclick = () => window.location = 'product.html';
+    </script>
+
+</body>
+
+</html>

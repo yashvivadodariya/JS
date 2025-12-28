@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Cart system</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: radial-gradient(circle at top, #3d1a1b, #6c2e33);
+            color: #eaeaf0;
+        }
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .topbar a {
+            color: #eaeaf0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .topbar a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: #9f9798;
+            transition: 0.3s;
+        }
+
+        .topbar a:hover::after {
+            width: 100%;
+        }
+
+        .login-link {
+            background: linear-gradient(135deg, #985c5f, #a3595a);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            box-shadow: 0 5px 15px rgba(255, 108, 108, 0.5);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .item-card {
+            background: linear-gradient(180deg, #fccfcf, #f8f8f8);
+            border-radius: 22px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            transition: all 0.35s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255, 108, 113, 0.15), transparent);
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .item-card:hover::before {
+            opacity: 1;
+        }
+
+        .item-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+        }
+
+        .item-photo {
+            height: 130px;
+            margin-bottom: 15px;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
+        }
+
+        .item-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1b1f3b;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            height: 38px;
+            overflow: hidden;
+        }
+
+        .item-cost {
+            font-size: 15px;
+            font-weight: 700;
+            color: #56292f;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div>
+            <a href="product.html">Home</a>
+            <a href="cart.html">cart</a>
+        </div>
+        <a href="login.html" class="login-link">Login</a>
+    </header>
+
+    <div id="itemContainer" class="items-grid"></div>
+
+    <script>
+        fetch('https://fakestoreapi.com/products')
+            .then(res => res.json())
+            .then(data => {
+                let layout = "";
+                data.map(p => {
+                    layout += `
+        <div class="item-card" onclick="openItem(${p.id})">
+            <img src="${p.image}" class="item-photo">
+            <div class="item-name">${p.title}</div>
+            <div class="item-cost">₹ ${p.price}</div>
+        </div>`;
+                })
+                itemContainer.innerHTML = layout;
+            });
+
+        function openItem(pid) {
+            localStorage.setItem('currentItem', JSON.stringify(pid));
+            window.location = 'productPage.html';
+        }
+    </script>
+
+</body>
+
+</html>

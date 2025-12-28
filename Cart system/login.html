@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Log In</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #3d1a1b, #6c2e33);
+            color: #fff;
+        }
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .topbar a {
+            color: #eaeaf0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .topbar a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: #9f9798;
+            transition: 0.3s;
+        }
+
+        .topbar a:hover::after {
+            width: 100%;
+        }
+
+        .d-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            padding: 35px 30px;
+            width: 350px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 25px;
+            font-size: 24px;
+            color: #ffe6e6;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .login-box input::placeholder {
+            color: #d6b0b1;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ec6e6e, #c24b4b);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s ease;
+            box-shadow: 0 6px 18px rgba(255, 127, 127, 0.5);
+        }
+
+        .login-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(155, 107, 255, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div>
+            <a href="product.html">Home</a>
+            <a href="cart.html">cart</a>
+        </div>
+        <a href="login.html" class="login-link">Login</a>
+    </header>
+
+    <div class="d-flex">
+        <form class="login-box" onsubmit="signInUser(event)">
+            <h2>Login</h2>
+            <input type="text" id="userField" placeholder="Username" required>
+            <input type="password" id="passField" placeholder="Password" required>
+            <button>Log In</button>
+        </form>
+    </div>
+
+    <script>
+        let userList = JSON.parse(localStorage.getItem('userList')) || [];
+
+        function signInUser(e) {
+            e.preventDefault();
+            userList.push({ user: userField.value, pass: passField.value });
+            localStorage.setItem('userList', JSON.stringify(userList));
+            localStorage.setItem('auth', 'yes');
+            window.location = 'product.html';
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>cart</title>
+    <header class="topbar">
+        <div>
+            <a href="product.html">Home</a>
+            <a href="cart.html">cart</a>
+        </div>
+        <a href="login.html" class="login-link">Login</a>
+    </header>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: radial-gradient(circle at top, #ba7b7d, #5f3135);
+            color: #401d21;
+        }
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .topbar a {
+            color: #eaeaf0;
+            text-decoration: none;
+            margin-right: 25px;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .topbar a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: #9f9798;
+            transition: 0.3s;
+        }
+
+        .topbar a:hover::after {
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .cart-table {
+            width: 100%;
+            background: rgba(69, 18, 18, 0.95);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 18px 45px rgba(135, 80, 80, 0.45);
+            backdrop-filter: blur(8px);
+        }
+
+        .cart-table th {
+            background: linear-gradient(135deg, #ceafb0, #b18387);
+            color: rgb(86, 43, 43);
+            padding: 14px;
+            font-size: 13px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .cart-table td {
+            padding: 14px;
+            text-align: center;
+            color: #f1e4e5;
+            font-size: 14px;
+        }
+
+        .cart-table tr:nth-child(even) {
+            background: #f4f5fe;
+        }
+
+        .cart-table tr:hover {
+            background: #5b3a3a;
+        }
+
+        .cart-table img {
+            border-radius: 10px;
+            background: white;
+            padding: 4px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff5f6d, #ff7b7b);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.25s;
+            box-shadow: 0 6px 15px rgba(255, 95, 109, 0.5);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 95, 109, 0.7);
+        }
+
+        h3 {
+            margin-top: 25px;
+            text-align: right;
+            font-size: 18px;
+            letter-spacing: 0.8px;
+        }
+
+        #cartTotal {
+            color: #c89999;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Your Cart</h2>
+
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody id="cartBody"></tbody>
+    </table>
+
+    <h3>Total ₹ <span id="cartTotal">0</span></h3>
+
+    <script>
+        let cartItems = JSON.parse(localStorage.getItem('cartData')) || [];
+
+        function rendercart() {
+            cartBody.innerHTML = "";
+            let sum = 0;
+
+            cartItems.forEach((x, i) => {
+                let t = x.price * x.qty;
+                sum += t;
+                cartBody.innerHTML += `
+        <tr>
+            <td>${i + 1}</td>
+            <td><img src="${x.img}" height="50"></td>
+            <td>${x.name}</td>
+            <td>${x.price}</td>
+            <td>${x.qty}</td>
+            <td>${t}</td>
+            <td><button onclick="deleteItem(${i})">X</button></td>
+        </tr>`;
+            });
+
+            cartTotal.innerText = sum;
+            localStorage.setItem('cartData', JSON.stringify(cartItems));
+        }
+
+        function deleteItem(i) {
+            cartItems.splice(i, 1);
+            rendercart();
+        }
+        rendercart();
+    </script>
+
+</body>
+
+</html>
