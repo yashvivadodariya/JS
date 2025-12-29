@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Task Manager</title>
+<style>
+body{
+    margin:0;
+    font-family: Arial;
+    background:#e4e7ff;
+}
+.container{
+    display:flex;
+    height:100vh;
+}
+.sidebar{
+    width:230px;
+    background:#1f2b6c;
+    color:white;
+    padding:20px;
+}
+.sidebar h2{text-align:center;margin-bottom:20px;}
+.sidebar button{
+    width:100%;
+    padding:12px;
+    margin-top:20px;
+    background:#4f46e5;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+.main{
+    flex:1;
+    padding:25px;
+    background:white;
+    border-radius:30px 0 0 30px;
+    margin:20px;
+    overflow-y:auto;
+}
+.taskBox{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+}
+.task{
+    width:260px;
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid #ddd;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.task button{
+    margin-right:5px;
+    padding:6px 10px;
+    border:none;
+    background:#4f46e5;
+    color:white;
+    border-radius:5px;
+}
+#formPage{display:none;}
+.form{
+    width:330px;
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+input,textarea{
+    width:100%;
+    margin-bottom:10px;
+    padding:8px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+.form button{
+    width:100%;
+    padding:10px;
+    background:#4f46e5;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+        <h2>Task Manager</h2>
+        <button onclick="showForm()">Add Task</button>
+    </div>
+
+    <div class="main">
+        <div id="taskPage">
+            <h2>Task Board</h2>
+            <div class="taskBox" id="box"></div>
+        </div>
+
+        <div id="formPage">
+            <h2 id="formTitle">Add Task</h2>
+            <div class="form">
+                <input id="title" placeholder="Task Title">
+                <textarea id="desc" placeholder="Description"></textarea>
+                <input id="start" placeholder="Start Date">
+                <input id="end" placeholder="End Date">
+                <button onclick="save()">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+var editIndex = null;
+
+var box = document.getElementById("box");
+var title = document.getElementById("title");
+var desc = document.getElementById("desc");
+var start = document.getElementById("start");
+var end = document.getElementById("end");
+var formPage = document.getElementById("formPage");
+var taskPage = document.getElementById("taskPage");
+var formTitle = document.getElementById("formTitle");
+
+function showForm() {
+    taskPage.style.display = "none";
+    formPage.style.display = "block";
+    editIndex = null;
+    title.value = "";
+    desc.value = "";
+    start.value = "";
+    end.value = "";
+    formTitle.innerHTML = "Add Task";
+}
+
+function editTask(i) {
+    editIndex = i;
+    taskPage.style.display = "none";
+    formPage.style.display = "block";
+    var t = tasks[i];
+    title.value = t.title;
+    desc.value = t.description;
+    start.value = t.startDate;
+    end.value = t.endDate;
+    formTitle.innerHTML = "Update Task";
+}
+
+function save() {
+    if(title.value.trim() === "") return alert("Enter task title");
+
+    var task = {
+        title: title.value,
+        description: desc.value,
+        startDate: start.value,
+        endDate: end.value
+    };
+
+    editIndex === null ? tasks.push(task) : tasks.splice(editIndex,1,task);
+    editIndex = null;
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    formPage.style.display = "none";
+    taskPage.style.display = "block";
+    showTasks();
+}
+
+function del(i) {
+    if(confirm("Delete this task?")) {
+        tasks.splice(i,1);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        showTasks();
+    }
+}
+
+function showTasks() {
+    box.innerHTML = "";
+    for(var i=0;i<tasks.length;i++){
+        box.innerHTML += `
+        <div class="task">
+            <h3>${tasks[i].title}</h3>
+            <p>${tasks[i].description}</p>
+            <p>Start: ${tasks[i].startDate}</p>
+            <p>End: ${tasks[i].endDate}</p>
+            <button onclick="editTask(${i})">Update</button>
+            <button onclick="del(${i})">Delete</button>
+        </div>`;
+    }
+}
+
+showTasks();
+</script>
+
+</body>
+</html>
