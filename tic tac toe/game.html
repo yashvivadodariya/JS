@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:linear-gradient(135deg,#43cea2,#185a9d);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            flex-direction:column;
+            color:white;
+        }
+
+        h2{
+            margin-bottom:20px;
+        }
+
+        table{
+            border-collapse:collapse;
+        }
+
+        td{
+            width:80px;
+            height:80px;
+            text-align:center;
+            vertical-align:middle;
+            font-size:36px;
+            font-weight:bold;
+            border:2px solid white;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        td:hover{
+            background:rgba(255,255,255,0.2);
+            transform:scale(1.1);
+        }
+
+        #msg{
+            margin-top:20px;
+            font-size:20px;
+            font-weight:bold;
+        }
+
+        button{
+            margin-top:20px;
+            padding:10px 25px;
+            font-size:16px;
+            border:none;
+            border-radius:8px;
+            background:#ff6b6b;
+            color:white;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#e63946;
+        }
+
+        @media(max-width:400px){
+            td{
+                width:60px;
+                height:60px;
+                font-size:28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Tic Tac Toe</h2>
+
+<table>
+<tr>
+    <td onclick="m(this,0,0)"></td>
+    <td onclick="m(this,0,1)"></td>
+    <td onclick="m(this,0,2)"></td>
+</tr>
+<tr>
+    <td onclick="m(this,1,0)"></td>
+    <td onclick="m(this,1,1)"></td>
+    <td onclick="m(this,1,2)"></td>
+</tr>
+<tr>
+    <td onclick="m(this,2,0)"></td>
+    <td onclick="m(this,2,1)"></td>
+    <td onclick="m(this,2,2)"></td>
+</tr>
+</table>
+
+<p id="msg"></p>
+<button onclick="r()">Reset</button>
+
+<script>
+var b=[['','',''],['','',''],['','','']],p='X';
+
+function m(c,r,c2){
+ if(b[r][c2]||w())return;
+ b[r][c2]=p;c.innerHTML=p;
+ if(w())document.getElementById('msg').innerHTML=p+' wins!';
+ else if(d())document.getElementById('msg').innerHTML='Draw!';
+ else p=(p=='X')?'O':'X';
+}
+
+function w(){
+ for(var i=0;i<3;i++)if(b[i][0]&&b[i][0]==b[i][1]&&b[i][1]==b[i][2])return true;
+ for(var i=0;i<3;i++)if(b[0][i]&&b[0][i]==b[1][i]&&b[1][i]==b[2][i])return true;
+ if(b[0][0]&&b[0][0]==b[1][1]&&b[1][1]==b[2][2])return true;
+ if(b[0][2]&&b[0][2]==b[1][1]&&b[1][1]==b[2][0])return true;
+ return false;
+}
+
+function d(){for(var i=0;i<3;i++)for(var j=0;j<3;j++)if(!b[i][j])return false;return true;}
+
+function r(){b=[['','',''],['','',''],['','','']]
+p='X';document.getElementById('msg').innerHTML='';var c=document.getElementsByTagName('td');for(var i=0;i<c.length;i++)c[i].innerHTML='';}
+</script>
+
+</body>
+</html>
